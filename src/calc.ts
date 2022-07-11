@@ -25,7 +25,7 @@ const addTypes = (array: string[]): Command[] => {
 };
 
 const callback = (data: string): void => {
-  const expression: string = data.toString().replace('\r\n', '');
+  const expression: string = data.toString().replace(/\r\n|\n/, '');
 
   if (expression == 'exit') {
     process.exit();
