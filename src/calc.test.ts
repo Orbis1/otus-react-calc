@@ -30,11 +30,9 @@ describe('callback', () => {
     })
     
     // @ts-ignore
-    console.dir(console.log.mock);
-    // @ts-ignore
     expect(console.log.mock.calls.length).toBe(exps.length);
     const answers = exps.map(({ result }) => ['> ' + result])
-    // @ts-ignoreq
+    // @ts-ignore
     expect(console.log.mock.calls).toEqual(answers);
   })
 });
