@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start-js": "node ./src/index.js",
-    "start-ts": "ts-node ./src/index.ts",
-    "test": "jest ./src/calc.test.ts"
+    "start-ts": "ts-node ./src/index.ts`",
+    "test": "jest ./src/calc.test.ts",
+    "pizda": "ts-node ./src/calc.ts"
   },
   "keywords": [],
   "author": "",

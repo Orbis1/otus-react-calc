@@ -1,6 +1,12 @@
+enum exType {
+  Number = "Number",
+  Operator = "Operator",
+  Unknown = "Unknown"
+}
+
 type Command = {
   value: number | string;
-  type: string;
+  type: string
 };
 
 const addTypes = (array: string[]): Command[] => {
@@ -43,5 +49,33 @@ const callback = (data: string): void => {
   }
 }
 
-export { addTypes , callback };
+const group = (args: Command[]): Command[][] => {
+  const result = [];
+  let acc = []
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (arg.type === 'Operator') {
+      switch (arg.value) {
+        case '+':
+          result.push(acc);
+          acc = []
+          break;
+        case '-':
+          result.push(acc);
+          acc = [arg]
+          break;
+        default:
+          acc.push(arg);
+          break;
+      }
+    } else if (arg.type === 'Number') {
+      acc.push(arg)
+    }
+  }
 
+  if (acc.length > 0) result.push(acc);
+
+  return result;
+}
+
+export { addTypes , callback, group, Command };
