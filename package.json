@@ -6,8 +6,7 @@
   "scripts": {
     "start-js": "node ./src/index.js",
     "start-ts": "ts-node ./src/index.ts`",
-    "test": "jest ./src/calc.test.ts",
-    "pizda": "ts-node ./src/calc.ts"
+    "test": "jest ./src/calc.test.ts"
   },
   "keywords": [],
   "author": "",

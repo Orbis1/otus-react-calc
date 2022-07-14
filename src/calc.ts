@@ -57,19 +57,24 @@ const group = (args: Command[]): Command[][] => {
     if (arg.type === 'Operator') {
       switch (arg.value) {
         case '+':
-          result.push(acc);
+          if (acc.length > 0) result.push(acc);
           acc = []
           break;
-        case '-':
-          result.push(acc);
-          acc = [arg]
-          break;
         default:
-          acc.push(arg);
+          if (acc.filter( a => a.type === 'Number').length === 2) {
+            result.push(acc);
+            acc = [arg]
+          } else {
+            acc.push(arg);
+          }
           break;
       }
     } else if (arg.type === 'Number') {
       acc.push(arg)
+      if (acc.filter( a => a.type === 'Number').length === 2) {
+        result.push(acc);
+        acc = [];
+      }
     }
   }
 

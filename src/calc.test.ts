@@ -60,7 +60,7 @@ describe('callback', () => {
 });
 
 describe('group by operator', () => {
-  it('2 + 2 * 2', () => {
+  it('2 + 2 * 2 -> [2][2*2]', () => {
     const exp: Command[] = [
       {value: 2, type: 'Number'},
       {value: '+', type: 'Operator'},
@@ -83,7 +83,7 @@ describe('group by operator', () => {
     expect(group(exp)).toEqual(res);
   })
 
-  it('2 - 2 * 2', () => {
+  it('2 - 2 * 2 -> [2][-2*2]', () => {
     const exp: Command[] = [
       {value: 2, type: 'Number'},
       {value: '-', type: 'Operator'},
@@ -107,7 +107,7 @@ describe('group by operator', () => {
     expect(group(exp)).toEqual(res);
   })
 
-  it('2 / 2 + 2', () => {
+  it('2 / 2 + 2 -> [2/2][2]', () => {
     const exp: Command[] = [
       {value: 2, type: 'Number'},
       {value: '/', type: 'Operator'},
@@ -129,4 +129,52 @@ describe('group by operator', () => {
 
     expect(group(exp)).toEqual(res);
   })
-});
+
+  it('2 / 2 * 2 -> [2/2][*2]', () => {
+    const exp: Command[] = [
+      {value: 2, type: 'Number'},
+      {value: '/', type: 'Operator'},
+      {value: 2, type: 'Number'},
+      {value: '*', type: 'Operator'},
+      {value: 2, type: 'Number'},
+    ];
+
+    const res: Command[][] = [
+      [
+        {value: 2, type: 'Number'},
+        {value: '/', type: 'Operator'},
+        {value: 2, type: 'Number'},
+      ],
+      [
+        {value: '*', type: 'Operator'},
+        {value: 2, type: 'Number'},
+      ]
+    ];
+
+    expect(group(exp)).toEqual(res);
+  })
+
+  it('2 / - 2 + 2 -> [2/-2][2]', () => {
+    const exp: Command[] = [
+      {value: 2, type: 'Number'},
+      {value: '/', type: 'Operator'},
+      {value: '-', type: 'Operator'},
+      {value: 2, type: 'Number'},
+      {value: '+', type: 'Operator'},
+      {value: 2, type: 'Number'},
+    ];
+
+    const res: Command[][] = [
+      [
+        {value: 2, type: 'Number'},
+        {value: '/', type: 'Operator'},
+        {value: '-', type: 'Operator'},
+        {value: 2, type: 'Number'},
+      ],
+      [
+        {value: 2, type: 'Number'},
+      ]
+    ];
+
+    expect(group(exp)).toEqual(res);
+  })});

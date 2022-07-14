@@ -18,3 +18,22 @@ index.ts - тоже самое переписал на ts
 * calculation: [ 1, 8, -2, -2]
 
 2 + 2 = > [2], [2]
+
+# Calculatation
+
+Array length
+[2] -> 2
+
+[-2] -> -2
+[*2] -> add to previous element *
+[/2] -> add to previous element *
+
+[2*2] -> 4
+[2/2] -> 1
+[2*-] -> add to previous element *
+[2*/] -> add to previous element *
+
+[2*-2] -> -4
+[2*/-2] -> -1
+
+* - if (first or last element = operator) then add to previous element
