@@ -1,86 +1,39 @@
-enum exType {
-  Number = "Number",
-  Operator = "Operator",
-  Unknown = "Unknown"
+import { compilation, calculate } from './polishNotation';
+
+const validation = (exp: string): boolean => {
+  const args = exp.split(' ');
+
+  const operands = args.filter(arg => arg.match(/\d+/));
+  if (operands.length < 2) {
+    console.log('Not enough operands: ' + operands.join(', '));
+    return false;
+  }
+
+  const spaces: string[] = exp.match(/ /g);
+  const characters: number = exp.length - spaces.length;
+  if (spaces.length + 1 !== characters) {
+    console.log(`Wrong format: ${spaces.length} spaces vs ${characters} characters`);
+    return false;
+  }
+
+  return true;
 }
-
-type Command = {
-  value: number | string;
-  type: string
-};
-
-const addTypes = (array: string[]): Command[] => {
-  const withTypes = array.map(elem => {
-
-    let value: number | string = elem;
-    let type: string;
-
-    if (/^\d+$/.test(elem)) {
-      value = Number(elem);
-      type = 'Number';
-    } else if (/^[+-/*]$/.test(elem)) {
-      type = 'Operator';
-    } else {
-      type = 'Unknown';
-    }
- 
-    return { value, type };
-  });
-
-  return withTypes;
-};
 
 const callback = (data: string): void => {
   const expression: string = data.toString().replace(/\r\n|\n/, '');
-
+  
   if (expression == 'exit') {
     process.exit();
   }
-
-  const args: string[] = expression.split(' ');
-  const argsTypes: Command[] = addTypes(args);
-
-  const wrongTypes: Command[] = argsTypes.filter(({type}) => !['Number', 'Operator'].includes(type));
-
-  if (wrongTypes.length > 0) {
-    console.log('Wrong format:', wrongTypes);
-  } else {
-    console.log(`> ${eval(args.join(''))}`);
-  }
-}
-
-const group = (args: Command[]): Command[][] => {
-  const result = [];
-  let acc = []
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i];
-    if (arg.type === 'Operator') {
-      switch (arg.value) {
-        case '+':
-          if (acc.length > 0) result.push(acc);
-          acc = []
-          break;
-        default:
-          if (acc.filter( a => a.type === 'Number').length === 2) {
-            result.push(acc);
-            acc = [arg]
-          } else {
-            acc.push(arg);
-          }
-          break;
-      }
-    } else if (arg.type === 'Number') {
-      acc.push(arg)
-      if (acc.filter( a => a.type === 'Number').length === 2) {
-        result.push(acc);
-        acc = [];
-      }
-    }
+  
+  if (!validation(expression)) {
+    return;
   }
 
-  if (acc.length > 0) result.push(acc);
+  const RPN: string = compilation(expression);
+  const answer = calculate(RPN);
 
-  return result;
+  console.log(`> ${answer}`);
 }
 
-export { addTypes , callback, group, Command };
+export { callback, validation };
