@@ -28,7 +28,7 @@ describe('validation', () => {
       { exp: '2 + 3 +4', result: false },
       { exp: '- 3', result: false },
       { exp: '2 * 3', result: true },
-      { exp: '6 / 3', result: true },
+      { exp: '1 + 2 / 3 - 4 * 6 - 10', result: true },
     ] ;
     console.log = jest.fn();
 

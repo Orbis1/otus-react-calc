@@ -10,9 +10,10 @@ const validation = (exp: string): boolean => {
   }
 
   const spaces: string[] = exp.match(/ /g);
-  const characters: number = exp.length - spaces.length;
-  if (spaces.length + 1 !== characters) {
-    console.log(`Wrong format: ${spaces.length} spaces vs ${characters} characters`);
+  const elements: string[] = exp.match(/\d+|[+-/*//]/g);
+
+  if (elements.length - spaces.length !== 1) {
+    console.log(`Wrong format: ${spaces.length} spaces vs ${elements.length} characters`);
     return false;
   }
 
