@@ -8,22 +8,21 @@ describe('callback', () => {
       { exp: '2 * 3', result: '6' },
       { exp: '6 / 3', result: '2' },
     ] ;
-    console.log = jest.fn();
+
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {});
 
     exps.forEach(({ exp, result }) => {
       callback(exp);
     })
     
-    // @ts-ignore
-    expect(console.log.mock.calls.length).toBe(exps.length);
+    expect(log.mock.calls.length).toBe(exps.length);
     const answers = exps.map(({ result }) => ['> ' + result])
-    // @ts-ignore
-    expect(console.log.mock.calls).toEqual(answers);
+    expect(log.mock.calls).toEqual(answers);
   })
 });
 
 describe('validation', () => {
-  it('should print error message to console', () => {
+  it('should validate input', () => {
     const exps = [
       { exp: '2 + 3 +4', result: false },
       { exp: '- 3', result: false },
