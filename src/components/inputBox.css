@@ -1,0 +1,11 @@
+.inputBox {
+  display: inline-block;
+  width: 100%;
+  background-color: black;
+  border-width: 0;
+  color: white;
+}
+
+.inputBox:focus {
+  outline: none;
+}
